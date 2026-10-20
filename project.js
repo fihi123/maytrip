@@ -93,6 +93,6 @@
     } catch { message('올바른 여행 준비 파일인지 확인해 주세요. 기존 내용은 유지됩니다.'); }
     finally { event.target.value = ''; }
   });
-  window.maytrip = { getEvents: () => structuredClone(project.events || []), setEvents: events => { const next = { ...project, events }; if (!valid(next)) return false; project = next; persist(); return true; } };
+  window.maytrip = { getEvents: () => structuredClone(project.events || []), setEvents: events => { const next = { ...project, events }; if (!valid(next)) return false; const previous = project; project = next; if (!persist()) { project = previous; return false; } return true; } };
   render();
 })();
